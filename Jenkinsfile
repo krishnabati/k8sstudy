@@ -23,7 +23,7 @@ pipeline {
                 // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUsername')]) {
                     sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PWD}"
                     sh "docker push ${env.IMAGE}:${TAG}"
-                }
+               // }
             }
         }
 
