@@ -6,6 +6,7 @@ pipeline {
         TAG='latest'
         AWS_KEY=credentials('AWS_KEY')
         AWS_SECRET=credentials('AWS_SECRET')
+        PWD=pwd
 
     }
     stages {
@@ -28,12 +29,13 @@ pipeline {
 
         stage('Deploy into K8s'){
             steps {
+                sh "${PWD}"
                 sh "chmod -R 777 /var/lib/jenkins/workspace/kube_pipeline/awsconfig.sh"
                 sh "/var/lib/jenkins/workspace/kube_pipeline/awsconfig.sh ${AWS_KEY} ${AWS_SECRET}"
                 sh "aws eks --region us-east-2 update-kubeconfig --name devopsmentor-dev-devopsmentorcluster"
                 sh "kubectl get nodes"
                 sh "kubectl delete pod devopmentorpod"
-                sh "kubectl delete pod devopmentorpod-httpd-service"
+                sh "kubectl delete svc devopmentorpod-httpd-service"
                 sh "kubectl run devopmentorpod --image ${IMAGE}:${TAG}"
                 sh "kubectl expose pod devopmentorpod --type=NodePort --port=81 --target-port=80 --name=devopmentorpod-httpd-service"
                 sh "kubectl get svc"
