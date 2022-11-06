@@ -3,7 +3,8 @@ pipeline {
     agent any
     environment {
         IMAGE='krishnabati/jenkins-docker'
-        TAG='latest'
+        
+        TAG='${BUILD_NUMBER}'
         AWS_KEY=credentials('AWS_KEY')
         AWS_SECRET=credentials('AWS_SECRET')
     }
