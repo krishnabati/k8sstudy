@@ -3,9 +3,10 @@ pipeline {
     agent any
     environment {
         IMAGE=credentials('DOCKER_IMAGE_REPO')
-        TAG='${BUILD_NUMBER}'
+        TAG='v.${BUILD_NUMBER}'
         AWS_KEY=credentials('AWS_KEY')
         AWS_SECRET=credentials('AWS_SECRET')
+        AWS_REGION=credentials('AWS_REGION')
         DOCKER_USER=credentials('dockerUsername')
         DOCKER_PWD=credentials('dockerPassword')
     }
@@ -27,8 +28,8 @@ pipeline {
             steps {
 
                 sh "chmod -R 777 /var/lib/jenkins/workspace/${JOB_NAME}/awsconfig.sh"
-                sh "/var/lib/jenkins/workspace/${JOB_NAME}/awsconfig.sh ${AWS_KEY} ${AWS_SECRET}"
-                sh "aws eks --region us-east-2 update-kubeconfig --name devopsmentor-dev-devopsmentorcluster"
+                sh "/var/lib/jenkins/workspace/${JOB_NAME}/awsconfig.sh ${AWS_KEY} ${AWS_SECRET} ${AWS_REGION}"
+                sh "aws eks --region ${AWS_REGION} update-kubeconfig --name devopsmentor-dev-devopsmentorcluster"
                 sh "kubectl get nodes"
                 sh "kubectl delete pod devopmentorpod"
                 sh "kubectl delete svc devopmentorpod-httpd-service"

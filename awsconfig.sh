@@ -5,7 +5,7 @@ mkdir $DIRECTORY
 fi
 cat > ~/.aws/config <<EOF
 [default]
-region = us-east-2
+region = $3
 
 
 EOF
