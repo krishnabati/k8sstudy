@@ -27,7 +27,7 @@ pipeline {
         stage('Deploy into K8s'){
             steps {
 
-                sh "[ ${AWS_FOLDER} == '' ] && {mkdir ${AWS_FOLDER};}"
+                sh "[ ${AWS_FOLDER} == '' ] && mkdir ${AWS_FOLDER}"
                 sh "chmod -R 777 /var/lib/jenkins/workspace/${JOB_NAME}/awsconfig.sh"
                 sh "/var/lib/jenkins/workspace/${JOB_NAME}/awsconfig.sh ${AWS_KEY} ${AWS_SECRET}"
                 sh "aws eks --region us-east-2 update-kubeconfig --name devopsmentor-dev-devopsmentorcluster"
