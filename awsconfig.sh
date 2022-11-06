@@ -1,5 +1,8 @@
 #!/bin/bash
-
+DIRECTORY='~/.aws'
+if [ ! -d "$DIRECTORY" ]; then
+mkdir $DIRECTORY
+fi
 cat > ~/.aws/config <<EOF
 [default]
 region = us-east-2
