@@ -6,8 +6,6 @@ pipeline {
         TAG='latest'
         AWS_KEY=credentials('AWS_KEY')
         AWS_SECRET=credentials('AWS_SECRET')
-        PWD=pwd
-
     }
     stages {
         stage('Build') {
