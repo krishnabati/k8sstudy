@@ -31,7 +31,7 @@ pipeline {
                 sh "/var/lib/jenkins/workspace/kube_pipeline/awsconfig.sh ${AWS_KEY} ${AWS_SECRET}"
                 sh "aws eks --region us-east-2 update-kubeconfig --name devopsmentor-dev-devopsmentorcluster"
                 sh "kubectl get nodes"
-                sh "kubectl delete pod devopmentorpod"
+                // sh "kubectl delete pod devopmentorpod"
                 sh "kubectl delete svc devopmentorpod-httpd-service"
                 sh "kubectl run devopmentorpod --image ${IMAGE}:${TAG}"
                 sh "kubectl expose pod devopmentorpod --type=NodePort --port=81 --target-port=80 --name=devopmentorpod-httpd-service"
