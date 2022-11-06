@@ -7,6 +7,9 @@ pipeline {
         TAG='${BUILD_NUMBER}'
         AWS_KEY=credentials('AWS_KEY')
         AWS_SECRET=credentials('AWS_SECRET')
+        DOCKER_USER=credentials('dockerUsername')
+        DOCKER_PWD=credentials('dockerPassword')
+
     }
     stages {
         stage('Build') {
@@ -15,12 +18,10 @@ pipeline {
             }
         }
         stage('Push to dockerhub') {
-            // when {
-            //     branch 'main'
-            // }
+            
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUsername')]) {
-                    sh "docker login -u ${env.dockerUsername} -p ${env.dockerPassword}"
+                // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUsername')]) {
+                    sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PWD}"
                     sh "docker push ${env.IMAGE}:${TAG}"
                 }
             }
