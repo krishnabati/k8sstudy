@@ -2,8 +2,7 @@
 pipeline {
     agent any
     environment {
-        IMAGE='rambabut/myweb'
-        
+        IMAGE=credentials('DOCKER_IMAGE_REPO')
         TAG='${BUILD_NUMBER}'
         AWS_KEY=credentials('AWS_KEY')
         AWS_SECRET=credentials('AWS_SECRET')
@@ -27,9 +26,8 @@ pipeline {
 
         stage('Deploy into K8s'){
             steps {
-                sh "${BUILD_URL}"
-                sh "chmod -R 777 /var/lib/jenkins/workspace/kube_pipeline/awsconfig.sh"
-                sh "/var/lib/jenkins/workspace/kube_pipeline/awsconfig.sh ${AWS_KEY} ${AWS_SECRET}"
+                sh "chmod -R 777 /var/lib/jenkins/workspace/${JOB_NAME}/awsconfig.sh"
+                sh "/var/lib/jenkins/workspace/${JOB_NAME}/awsconfig.sh ${AWS_KEY} ${AWS_SECRET}"
                 sh "aws eks --region us-east-2 update-kubeconfig --name devopsmentor-dev-devopsmentorcluster"
                 sh "kubectl get nodes"
                 sh "kubectl delete pod devopmentorpod"
