@@ -8,7 +8,6 @@ pipeline {
         AWS_SECRET=credentials('AWS_SECRET')
         DOCKER_USER=credentials('dockerUsername')
         DOCKER_PWD=credentials('dockerPassword')
-        AWS_FOLDER="~/.aws"
     }
     stages {
         stage('Build') {

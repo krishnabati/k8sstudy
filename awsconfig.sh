@@ -1,5 +1,5 @@
 #!/bin/bash
-DIRECTORY='~/.aws'
+DIRECTORY="/var/lib/jenkins/.aws"
 if [ ! -d "$DIRECTORY" ]; then
 mkdir $DIRECTORY
 fi
